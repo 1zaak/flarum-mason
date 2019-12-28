@@ -6,17 +6,19 @@ import Button from 'flarum/components/Button';
 import FieldsEditorModal from './FieldsEditorModal';
 import FieldGrid from './FieldGrid';
 import sortByAttribute from './../../lib/helpers/sortByAttribute';
+import verifyURL from '../helpers/verifyURL';
 
 export default class FieldsViewer extends Component {
     init() {
-        this.fields = sortByAttribute(app.store.all('flagrow-mason-field'));
+        this.fields = sortByAttribute(app.store.all('flagrow-mason-field'));    
+        this.answers = sortByAttribute(app.store.all('flagrow-mason-answer'));        
         this.discussion = this.props.discussion;
     }
 
     view() {
         const head = this.headItems().toArray();
         const fields = this.fieldsItems().toArray();
-
+        
         // If all fields are hidden
         // And either no controls are shown or the setting hides them
         // We don't show the viewer
@@ -56,8 +58,8 @@ export default class FieldsViewer extends Component {
 
     fieldsItems() {
         const items = new ItemList();
-
         this.fields.forEach(field => {
+            
             // Discussion answers to this field
             const answers = sortByAttribute(this.discussion.flagrowMasonAnswers().filter(answer => {
                 // It's necessary to compare the field() relationship
@@ -74,17 +76,29 @@ export default class FieldsViewer extends Component {
                     // If the field has no answer and the setting is off we don't show it
                     return;
                 }
-            }
+            }            
+                        
+            if (field.name() === 'URL') {                
+                items.add('field-' + field.id(), m('.Mason-Field.Form-group', [
+                    m('label', [
+                        (field.icon() ? [icon(field.icon()), ' '] : null),
+                        field.name(),
+                    ]),
+                    m('a',{href: verifyURL(answer_list[0].children[0]), class:'.FormControl.Mason-Inline-Answers', target: '_blank'}, 'Go To Site')                    
+                    
+                ]));
+            } else {
+                items.add('field-' + field.id(), m('.Mason-Field.Form-group', [
+                    m('label', [
+                        (field.icon() ? [icon(field.icon()), ' '] : null),
+                        field.name(),
+                    ]),
+                    m('.FormControl.Mason-Inline-Answers', answer_list),
+                ]));
+            }            
 
-            items.add('field-' + field.id(), m('.Mason-Field.Form-group', [
-                m('label', [
-                    (field.icon() ? [icon(field.icon()), ' '] : null),
-                    field.name(),
-                ]),
-                m('.FormControl.Mason-Inline-Answers', answer_list),
-            ]));
         });
 
         return items;
-    }
+    }    
 }
