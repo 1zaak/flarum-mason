@@ -316,8 +316,6 @@ function showFieldsOnPost(post) {
   Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2___default.a.prototype, 'init', function () {
     var _this = this;
 
-    console.log(addFieldsOnDiscussionPost);
-
     if (!this.props.post.discussion().canSeeFlagrowMasonAnswers() || !showFieldsOnPost(this.props.post)) {
       return;
     }
