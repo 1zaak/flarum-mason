@@ -3,7 +3,7 @@ import icon from 'flarum/helpers/icon';
 import ItemList from 'flarum/utils/ItemList';
 import Component from 'flarum/Component';
 import Button from 'flarum/components/Button';
-import FieldsEditorModal from './FieldsEditorModal';
+import FieldsEditorModalDiscussion from './FieldsEditorModalDiscussion';
 import FieldGrid from './FieldGrid';
 import sortByAttribute from './../../lib/helpers/sortByAttribute';
 import verifyURL from '../helpers/verifyURL';
@@ -13,6 +13,7 @@ export default class FieldsViewer extends Component {
         this.fields = sortByAttribute(app.store.all('flagrow-mason-field'));    
         this.answers = sortByAttribute(app.store.all('flagrow-mason-answer'));        
         this.discussion = this.props.discussion;
+        console.log('FieldsViewer')
     }
 
     view() {
@@ -43,7 +44,7 @@ export default class FieldsViewer extends Component {
                 className: 'Button Mason-Fields--edit',
                 children: app.translator.trans('flagrow-mason.forum.discussion-controls.edit-answers'),
                 icon: 'fas fa-pen',
-                onclick: () => app.modal.show(new FieldsEditorModal({
+                onclick: () => app.modal.show(new FieldsEditorModalDiscussion({
                     discussion: this.discussion,
                 })),
             }));
@@ -58,7 +59,8 @@ export default class FieldsViewer extends Component {
 
     fieldsItems() {
         const items = new ItemList();
-        this.fields.forEach(field => {
+        
+        this.fields.forEach(field => {     
             
             // Discussion answers to this field
             const answers = sortByAttribute(this.discussion.flagrowMasonAnswers().filter(answer => {
@@ -66,19 +68,21 @@ export default class FieldsViewer extends Component {
                 // Because field.suggested_answers() won't contain new and user answers
                 return answer.field().id() === field.id();
             }));
-
+            
             let answer_list = answers.map(answer => m('span.Mason-Inline-Answer', answer.content()));
 
             if (answers.length === 0) {
                 if (field.show_when_empty()) {
                     answer_list.push(m('em.Mason-Inline-Answer', app.translator.trans('flagrow-mason.forum.post-answers.no-answer')));
                 } else {
+                    // console.log('will return', field.name())
                     // If the field has no answer and the setting is off we don't show it
                     return;
                 }
             }            
                         
-            if (field.name() === 'URL') {                
+            
+            if (field.name() == 'Deal URL') {  
                 items.add('field-' + field.id(), m('.Mason-Field.Form-group', [
                     m('label', [
                         (field.icon() ? [icon(field.icon()), ' '] : null),

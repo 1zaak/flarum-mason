@@ -5,6 +5,7 @@ import sortTags from 'flarum/tags/utils/sortTags';
 
 export default class DiscussionFields extends Component {
     init() {
+        console.log('FieldEditTags')
         this.tags = app.store.all('tags');
         this.selectedTags = [];
 

@@ -3,7 +3,7 @@ import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
 import FieldsEditor from './FieldsEditor';
 
-export default class FieldsEditorModal extends Modal {
+export default class FieldsEditorModalDiscussion extends Modal {
     init() {
         super.init();
 
@@ -13,6 +13,7 @@ export default class FieldsEditorModal extends Modal {
 
         // Stays null if the feature is not used
         this.tags = null;
+        console.log('FieldsEditorModalDiscussion')
     }
 
     title() {

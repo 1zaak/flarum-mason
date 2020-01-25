@@ -11,6 +11,7 @@ function showFieldsOnPost(post) {
 
 export default function () {
     extend(CommentPost.prototype, 'init', function () {
+        console.log(addFieldsOnDiscussionPost)
         if (!this.props.post.discussion().canSeeFlagrowMasonAnswers() || !showFieldsOnPost(this.props.post)) {
             return;
         }

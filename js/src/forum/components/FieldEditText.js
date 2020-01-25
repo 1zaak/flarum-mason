@@ -6,23 +6,24 @@ export default class FieldEditText extends Component {
     init() {
         this.field = this.props.field;
         this.answers = this.props.answers;
+        console.log('FieldEditText')
         this.onchange = this.props.onchange;
 
         this.content = '';
 
-        const answersForThisField = this.answers.filter(answer => {
-            // Temporary store entries seem to turn into undefined after saving
-            if (typeof answer === 'undefined') {
-                return false;
-            }
+        // const answersForThisField = this.answers.filter(answer => {
+        //     // Temporary store entries seem to turn into undefined after saving
+        //     if (typeof answer === 'undefined') {
+        //         return false;
+        //     }
 
-            return answer.field().id() === this.field.id();
-        });
+        //     return answer.field().id() === this.field.id();
+        // });
 
-        if (answersForThisField.length) {
-            // For now we only support a single custom answer
-            this.content = answersForThisField[0].content();
-        }
+        // if (answersForThisField.length) {
+        //     // For now we only support a single custom answer
+        //     this.content = answersForThisField[0].content();
+        // }
     }
 
     view() {
@@ -31,7 +32,7 @@ export default class FieldEditText extends Component {
             value: this.content,
             oninput: m.withAttr('value', value => {
                 this.content = value;
-
+                
                 if (this.content === '') {
                     this.onchange([]);
                 } else {
@@ -45,7 +46,7 @@ export default class FieldEditText extends Component {
                             },
                         },
                     });
-
+                    
                     this.onchange([answer]);
                 }
             }),

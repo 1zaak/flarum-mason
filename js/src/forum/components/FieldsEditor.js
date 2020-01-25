@@ -10,6 +10,7 @@ import FieldGrid from './FieldGrid';
 
 export default class FieldsEditor extends Component {
     init() {
+        console.log('FieldsEditor')
         this.fields = sortByAttribute(app.store.all('flagrow-mason-field'));
 
         // Index to quickly do a reverse lookup from answer to field
@@ -22,7 +23,7 @@ export default class FieldsEditor extends Component {
                     }
                 );
             }
-        );
+        );        
     }
 
     view() {
@@ -55,7 +56,7 @@ export default class FieldsEditor extends Component {
         );
 
         answers = answers.concat(fieldAnswers);
-
+        console.log('answers', answers)
         this.props.onchange(answers);
     }
 
@@ -112,7 +113,7 @@ export default class FieldsEditor extends Component {
                 (field.description() ? m('.helpText', field.description()) : null),
             ]));
         });
-
+        
         return items;
     }
 }

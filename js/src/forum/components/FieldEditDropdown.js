@@ -5,6 +5,7 @@ import sortByAttribute from './../../lib/helpers/sortByAttribute';
 
 export default class FieldEditDropdown extends Component {
     init() {
+        console.log('FieldEditDropdown')
         this.field = this.props.field;
         this.answers = this.props.answers;
         this.onchange = this.props.onchange;
